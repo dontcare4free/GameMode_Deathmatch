@@ -3,6 +3,8 @@ ADDON Server_Permissions
 ADDON GameMode_Deathmatch
 
 $MiniGame::Enabled 1
+$MiniGame::IncludeAllPlayersBricks 1
+$MiniGame::UseSpawnBricks 1
 
 $EnvGuiServer::SimpleMode 1
 $EnvGuiServer::Skyfile Add-Ons/Sky_Skylands/Skylands.dml
