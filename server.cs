@@ -245,13 +245,18 @@ function MiniGameSO::endBuildVote(%this, %noReset) {
 	for (%i = 0 ; %i <= $Deathmatch::Temp::Vote::MaxBL_ID ; %i++) {
 		%vote = $Deathmatch::Temp::Vote::Voted[%i];
 
-		if (%vote !$= "")
+		if (%vote !$= "") {
+			talk(%i);
+			talk(%vote);
 			%tally[%vote] += 1;
+			talk(%tally[%vote]);
+			talk("---");
+		}
 	}
 
 	%max = %this.build;
 
-	for (%i = 1 ; %i <= $Deathmatch::Temp::BuildCount ; %i++) {
+	for (%i = 0 ; %i < $Deathmatch::Temp::BuildCount ; %i++) {
 		%name = $Deathmatch::Temp::BuildName[%i];
 		if (%tally[%name] > %tally[%max]) {
 			%max = %name;
