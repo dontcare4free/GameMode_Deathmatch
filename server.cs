@@ -296,8 +296,6 @@ package DM {
 		DM_loadBuild(%this.nextBuild);
 		%this.nextBuild = "";
 
-		%this.respawnAll();
-
 		if ($Deathmatch::Pref::TimeLimit != -1)
 			%this.timeLimitSchedule = %this.schedule($Deathmatch::Pref::TimeLimit * 1000, startBuildVote);
 		
@@ -305,5 +303,16 @@ package DM {
 			%this.scoreLimitSchedule = %this.schedule(1000, checkScoreLimit);
 
 		return parent::reset(%this, %a);
+	}
+
+	function serverLoadSaveFile_End() {
+		$DefaultMinigame.schedule(0, respawnAll);
+
+		return parent::serverLoadSaveFile_End();
+	}
+
+	function serverCmdResetMinigame(%cl) {
+		if (%cl.isAdmin)
+			$DefaultMinigame.reset(%cl);
 	}
 }; activatePackage(DM);
