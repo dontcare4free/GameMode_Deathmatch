@@ -246,11 +246,7 @@ function MiniGameSO::endBuildVote(%this, %noReset) {
 		%vote = $Deathmatch::Temp::Vote::Voted[%i];
 
 		if (%vote !$= "") {
-			talk(%i);
-			talk(%vote);
 			%tally[%vote] += 1;
-			talk(%tally[%vote]);
-			talk("---");
 		}
 	}
 
