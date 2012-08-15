@@ -257,7 +257,7 @@ function MiniGameSO::endBuildVote(%this, %noReset) {
 			%max = %name;
 	}
 
-	%this.nextBuild = $Deathmatch::Temp::BuildName[%max];
+	%this.nextBuild = %max;
 
 	%this.messageAll('', "The build vote is now over." SPC %this.nextBuild SPC "won!");
 
