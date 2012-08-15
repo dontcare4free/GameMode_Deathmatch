@@ -4,7 +4,7 @@ $Deathmatch::Pref::ScoreLimit = 10; // -1 for infinite
 $Deathmatch::Pref::VoteBuildAmount = 5;
 
 forceRequiredAddOn("Server_Permissions");
-getPermissisonManager().registerPermission("Reset Deathmatch minigame", "deathmatch.minigame.reset", 1);
+getPermissionManager().registerPermission("Reset Deathmatch minigame", "deathmatch.minigame.reset", 1);
 
 
 function DM_getBrickGroup() {
