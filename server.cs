@@ -5,6 +5,7 @@ $Deathmatch::Pref::VoteBuildAmount = 5;
 
 forceRequiredAddOn("Server_Permissions");
 getPermissionManager().registerPermission("Reset Deathmatch minigame", "deathmatch.minigame.reset", 1);
+getPermissionManager().registerPermission("Force Deathmatch build", "deathmatch.build.change", 1);
 
 
 function DM_getBrickGroup() {
@@ -343,5 +344,20 @@ package DM {
 	function serverCmdResetMinigame(%cl) {
 		if (%cl.hasPermission("deathmatch.minigame.reset"))
 			$DefaultMinigame.reset(%cl);
+	}
+
+	function serverCmdChangeBuild(%cl, %a, %b, %c, %d, %e, %f) {
+		if (!%cl.hasPermission("deathmatch.build.change"))
+			return;
+
+		%build = trim(%a SPC %b SPC %c SPC %d SPC %e SPC %f);
+		%buildID = $Deathmatch::Temp::BuildByName[%build];
+		%build = $Deathmatch::Temp::BuildName[%buildID];
+
+		if (%build $= "")
+			return;
+
+		%cl.miniGame.nextBuild = %build;
+		%cl.miniGame.reset(%cl);
 	}
 }; activatePackage(DM);
