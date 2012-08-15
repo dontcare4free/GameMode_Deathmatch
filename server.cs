@@ -6,7 +6,7 @@ $Deathmatch::Pref::VoteBuildAmount = 5;
 exec("./Support_CustomAddOns.cs");
 
 forceRequiredAddOn("Server_Permissions");
-getPermisisonManager().registerPermission("Reset Deathmatch minigame", "deathmatch.minigame.reset", 1);
+getPermissisonManager().registerPermission("Reset Deathmatch minigame", "deathmatch.minigame.reset", 1);
 
 
 function DM_getBrickGroup() {
@@ -201,7 +201,7 @@ function serverCmdVote(%cl, %a, %b, %c, %d, %e, %f, %g, %h) {
 		return;
 	}
 
-	announce(%cl.name SPC "voted for" SPC %build @ ".");
+	announce("\c6" @ %cl.name SPC "\c3voted for\c6" SPC %build @ "\c3.");
 	$Deathmatch::Temp::Vote::Voted[%cl.bl_id] = %build;
 	$Deathmatch::Temp::Vote::MaxBL_ID = getMax($Deathmatch::Temp::Vote::MaxBL_ID, %cl.bl_id);
 }
@@ -224,15 +224,15 @@ function MiniGameSO::startBuildVote(%this) {
 		%this.nextBuild = %eligible;
 		%this.reset(0);
 	} else {
-		%this.messageAll('', "You may now vote for new builds. You have" SPC $Deathmatch::Pref::VoteTimeLimit SPC "seconds to vote. Your choices are:");
+		%this.messageAll('', "\c3You may now vote for new builds. You have\c6" SPC $Deathmatch::Pref::VoteTimeLimit SPC "\c3seconds to vote. Your choices are:");
 
 		for (%i = 0 ; %i < %eligibleCount ; %i++) {
 			%build = getField(%eligible, %i);
-			%this.messageAll('', "*" @ (%this.build $= %build ? " Extend" : "") SPC %build);
+			%this.messageAll('', "\c3*" @ (%this.build $= %build ? " Extend\c6" : "\c6") SPC %build);
 			$Deathmatch::Temp::Vote::Eligible[%build] = true;
 		}
 
-		%this.messageAll('', "You may vote by typing \"/vote <map>\" (without the quotes)");
+		%this.messageAll('', "\c3You may vote by typing \"/vote \c7map\c3\" (without the quotes)");
 
 		%this.buildVoteSchedule = %this.schedule($Deathmatch::Pref::VoteTimeLimit * 1000, endBuildVote);
 	}
@@ -253,13 +253,14 @@ function MiniGameSO::endBuildVote(%this, %noReset) {
 
 	for (%i = 1 ; %i <= $Deathmatch::Temp::BuildCount ; %i++) {
 		%name = $Deathmatch::Temp::BuildName[%i];
-		if (%tally[%name] > %tally[%max])
+		if (%tally[%name] > %tally[%max]) {
 			%max = %name;
+		}
 	}
 
 	%this.nextBuild = %max;
 
-	%this.messageAll('', "The build vote is now over." SPC %this.nextBuild SPC "won!");
+	%this.messageAll('', "\c3The build vote is now over.\c6" SPC %this.nextBuild SPC "\c3won!");
 
 	if (!%noReset)
 		%this.reset(0);
