@@ -21,15 +21,21 @@ function DM_discoverBuilds() {
 
 	setModPaths(getModPaths()); // Refresh the file cache
 	if (!isFile("config/server/deathmatch/builds/README.txt")) {
-		%fo.openForWrite("config/server/deathmatch/builds/README.txt");
-		%fo.close();
-
 		%regex = "Add-Ons/GameMode_Deathmatch/defaults/builds/*.*";
+		%targetFO = new FileObject();
 		for (%i = findFirstFile(%regex) ; %i !$= "" ; %i = findNextFile(%regex)) {
 			%targetPath = "config/server/deathmatch/builds/" @ fileName(%i);
-			fileCopy(%i, %targetPath);
-			discoverFile(%targetPath);
+
+			%fo.openForRead(%i); // Hack because fileCopy doesn't seem to like zip files
+			%targetFO.openForWrite(%targetPath);
+
+			while (!%fo.isEOF())
+				%targetFO.writeLine(%fo.readLine());
+
+			%fo.close();
+			%targetFO.close();
 		}
+		%targetFO.delete();
 	}
 
 	%regex = "config/server/deathmatch/builds/*.dm";
