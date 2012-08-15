@@ -1,16 +1,5 @@
 ADDON GameMode_Deathmatch
 
-//ADDON Vehicle_Horse
-
-//ADDON Weapon_Bow
-//ADDON Weapon_Gun
-//ADDON Weapon_Guns_Akimbo
-//ADDON Weapon_Horse_Ray
-//ADDON Weapon_Push_Broom
-//ADDON Weapon_Rocket_Launcher
-//ADDON Weapon_Spear
-//ADDON Weapon_Sword
-
 $MiniGame::Enabled 1
 
 $EnvGuiServer::SimpleMode 1
