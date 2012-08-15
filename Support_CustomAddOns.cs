@@ -20,21 +20,5 @@ package DM_Support_CustomAddOns
 			return parent::forceRequiredAddOn(%addon);
 		}
 	}
-
-	function loadRequiredAddOn(%addon)
-	{
-		if(%addon $= "stuff") //do whatever you want here
-		{
-			%old = $gameModeArg;
-			$gameModeArg = "";
-			%parent = parent::loadRequiredAddOn(%addon);
-			$gameModeArg = %old;
-			return %parent;
-		}
-		else
-		{
-			return parent::loadRequiredAddOn(%addon);
-		}
-	}
 };
 activatePackage(DM_Support_CustomAddOns);
