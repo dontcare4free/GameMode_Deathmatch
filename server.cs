@@ -39,7 +39,7 @@ function DM_discoverBuilds() {
 		%name = trim(strReplace(fileName(fileBase(%i)), "_", " "));
 
 		%build = "";
-		%playerDatablock = PlayerNoJet;
+		%playerDatablock = PlayerStandardArmor;
 		%toolCount = 0;
 
 		%success = true;
