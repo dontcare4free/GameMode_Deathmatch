@@ -1,0 +1,27 @@
+ADDON GameMode_Deathmatch
+
+//ADDON Vehicle_Horse
+
+//ADDON Weapon_Bow
+//ADDON Weapon_Gun
+//ADDON Weapon_Guns_Akimbo
+//ADDON Weapon_Horse_Ray
+//ADDON Weapon_Push_Broom
+//ADDON Weapon_Rocket_Launcher
+//ADDON Weapon_Spear
+//ADDON Weapon_Sword
+
+$MiniGame::Enabled 1
+
+$EnvGuiServer::SimpleMode 1
+$EnvGuiServer::Skyfile Add-Ons/Sky_Skylands/Skylands.dml
+$EnvGuiServer::Waterfile NONE
+$EnvGuiServer::Groundfile Add-Ons/Ground_Plate/plate.ground
+
+$MiniGame::FallingDamage 1
+$MiniGame::WeaponDamage 1
+$MiniGame::SelfDamage 1
+$MiniGame::VehicleDamage 1
+$MiniGame::BrickDamage 1
+
+$MiniGame::Points_KillPlayer 1

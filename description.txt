@@ -1,0 +1,3 @@
+Title: Deathmatch
+AUthor: Nullable
+Deathmatch with map cycle.
