@@ -246,12 +246,12 @@ function MiniGameSO::endBuildVote(%this, %noReset) {
 			%tally[%vote] += 1;
 	}
 
-	%max = 0;
+	%max = %this.build;
 
 	for (%i = 1 ; %i <= $Deathmatch::Temp::BuildCount ; %i++) {
 		%name = $Deathmatch::Temp::BuildName[%i];
-		if (%tally[%name] > %tally[$Deathmatch::Temp::BuildName[%max]])
-			%max = %i;
+		if (%tally[%name] > %tally[%max])
+			%max = %name;
 	}
 
 	%this.nextBuild = $Deathmatch::Temp::BuildName[%max];
