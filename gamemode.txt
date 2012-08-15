@@ -1,3 +1,5 @@
+ADDON Server_Permissions
+
 ADDON GameMode_Deathmatch
 
 $MiniGame::Enabled 1

@@ -3,8 +3,11 @@ $Deathmatch::Pref::VoteTimeLimit = 15; // Seconds
 $Deathmatch::Pref::ScoreLimit = 10; // -1 for infinite
 $Deathmatch::Pref::VoteBuildAmount = 5;
 
-
 exec("./Support_CustomAddOns.cs");
+
+forceRequiredAddOn("Server_Permissions");
+getPermisisonManager().registerPermission("Reset Deathmatch minigame", "deathmatch.minigame.reset", 1);
+
 
 function DM_getBrickGroup() {
 	return BrickGroup_888888;
@@ -312,7 +315,7 @@ package DM {
 	}
 
 	function serverCmdResetMinigame(%cl) {
-		if (%cl.isAdmin)
+		if (%cl.hasPermission("deathmatch.minigame.reset"))
 			$DefaultMinigame.reset(%cl);
 	}
 }; activatePackage(DM);
