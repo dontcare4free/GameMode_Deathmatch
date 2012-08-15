@@ -57,7 +57,7 @@ function DM_discoverBuilds() {
 			switch$(getWord(%line, 0)) {
 				case "addon":
 					%addOn = getWords(%line, 1);
-					if (DM_forceRequiredAddOn(%addOn) == $Error::AddOn_NotFound) {
+					if (forceRequiredAddOn(%addOn) == $Error::AddOn_NotFound) {
 						error("Add-On" SPC %addOn SPC "(required by" SPC %name @ ") was not found), skipping build" SPC %name);
 						%success = false;
 						break;
