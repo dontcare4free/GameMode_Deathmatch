@@ -3,8 +3,6 @@ $Deathmatch::Pref::VoteTimeLimit = 15; // Seconds
 $Deathmatch::Pref::ScoreLimit = 10; // -1 for infinite
 $Deathmatch::Pref::VoteBuildAmount = 5;
 
-exec("./Support_CustomAddOns.cs");
-
 forceRequiredAddOn("Server_Permissions");
 getPermissisonManager().registerPermission("Reset Deathmatch minigame", "deathmatch.minigame.reset", 1);
 
@@ -50,13 +48,16 @@ function DM_discoverBuilds() {
 
 		%success = true;
 
+		%oldGameModeArg = $gameModeArg; // Temporarily disable add-on whitelist
+		$gameModeArg = "";
+
 		while(!%fo.isEOF()) {
 			%line = %fo.readLine();
 
 			switch$(getWord(%line, 0)) {
 				case "addon":
 					%addOn = getWords(%line, 1);
-					if (forceRequiredAddOn(%addOn) == $Error::AddOn_NotFound) {
+					if (DM_forceRequiredAddOn(%addOn) == $Error::AddOn_NotFound) {
 						error("Add-On" SPC %addOn SPC "(required by" SPC %name @ ") was not found), skipping build" SPC %name);
 						%success = false;
 						break;
@@ -123,6 +124,8 @@ function DM_discoverBuilds() {
 
 			echo("Added build" SPC %name SPC "with the ID" SPC %buildID);
 		}
+
+		$gameModeArg = %oldGameModeArg;
 
 		%fo.close();
 	}
