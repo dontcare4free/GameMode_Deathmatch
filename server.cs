@@ -51,6 +51,9 @@ function DM_discoverBuilds() {
 		%oldGameModeArg = $gameModeArg; // Temporarily disable add-on whitelist
 		$gameModeArg = "";
 
+		%brickDamage = true;
+		%fallingDamage = true;
+
 		while(!%fo.isEOF()) {
 			%line = %fo.readLine();
 
@@ -101,6 +104,12 @@ function DM_discoverBuilds() {
 						%success = false;
 						break;
 					}
+
+				case "brickdamage":
+					%brickDamage = getWord(%line, 1) + 0;
+
+				case "fallingdamage":
+					%fallingDamage = getWord(%line, 1) + 0;
 			}
 		}
 
@@ -116,6 +125,9 @@ function DM_discoverBuilds() {
 			$Deathmatch::Temp::BuildName[%buildID] = %name;
 			$Deathmatch::Temp::BuildFile[%buildID] = %build;
 			$Deathmatch::Temp::BuildPlayerDatablock[%buildID] = %playerDatablock;
+
+			$Deathmatch::Temp::BuildBrickDamage[%buildID] = %brickDamage;
+			$Deathmatch::Temp::BuildFallingDamage[%buildID] = %fallingDamage;
 
 			for (%i = 0 ; %i < %toolCount ; %i++)
 				$Deathmatch::Temp::BuildTool[%buildID, %i] = %tools[%i];
@@ -146,6 +158,9 @@ function DM_loadBuild(%build) {
 		announce(%msg);
 		return;
 	}
+
+	$DefaultMinigame.brickDamage = $Deathmatch::Temp::BuildBrickDamage[%buildID];
+	$DefaultMinigame.fallingDamage = $Deathmatch::Temp::BuildFallingDamage[%buildID];
 
 	$DefaultMinigame.playerDatablock = $Deathmatch::Temp::BuildPlayerDatablock[%buildID].getID();
 	serverDirectSaveFileLoad($Deathmatch::Temp::BuildFile[%buildID], 3, "", 2);
