@@ -320,6 +320,8 @@ package DM {
 	function MiniGameSO::reset(%this, %a) {
 		if (%this.buildVoteSchedule)
 			%this.endBuildVote(true);
+		cancel(%this.timeLimitSchedule);
+		cancel(%this.scoreLimitSchedule);
 
 		if (%this.nextBuild $= "")
 			%this.nextBuild = DM_getRandomBuilds(1);
