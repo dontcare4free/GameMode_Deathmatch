@@ -361,6 +361,7 @@ package DM {
 			return;
 
 		%cl.miniGame.nextBuild = %build;
-		%cl.miniGame.reset(%cl);
+		%cl.miniGame.messageAll('', "\c6" @ %cl.name SPC "\c3changed the build to\c6" SPC %build @ "\c3.");
+		%cl.miniGame.reset(0);
 	}
 }; activatePackage(DM);
