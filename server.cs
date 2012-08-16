@@ -314,11 +314,17 @@ function MiniGameSO::checkScoreLimit(%this) {
 package DM {
 	function MiniGameSO::onAdd(%this) {
 		%ret = parent::onAdd(%this);
-		%this.schedule(0, reset, 0);
+		
+		if (%this.getID() != $DefaultMinigame.getID())
+			%this.schedule(0, reset, 0);
+		
 		return %ret;
 	}
 
-	function MiniGameSO::reset(%this, %a) {
+	function MiniGameSO::reset(%this, %client) {
+		if (%this.getID() != $DefaultMinigame.getID())
+			return parent::reset(%this, %client);
+
 		if (%this.buildVoteSchedule)
 			%this.endBuildVote(true);
 		cancel(%this.timeLimitSchedule);
@@ -335,7 +341,7 @@ package DM {
 		if ($Deathmatch::Pref::ScoreLimit != -1)
 			%this.scoreLimitSchedule = %this.schedule(1000, checkScoreLimit);
 
-		return parent::reset(%this, %a);
+		return parent::reset(%this, %client);
 	}
 
 	function serverLoadSaveFile_End() {
@@ -345,12 +351,14 @@ package DM {
 	}
 
 	function serverCmdResetMinigame(%cl) {
-		if (%cl.hasPermission("deathmatch.minigame.reset"))
-			$DefaultMinigame.reset(%cl);
+		if (%cl.miniGame.getID() != $DefaultMinigame.getID())
+			parent::serverCmdResetMinigame(%cl);
+		else if (%cl.hasPermission("deathmatch.minigame.reset"))
+			$DefaultMinigame.reset(0);
 	}
 
 	function serverCmdChangeBuild(%cl, %a, %b, %c, %d, %e, %f) {
-		if (!%cl.hasPermission("deathmatch.build.change"))
+		if (!%cl.hasPermission("deathmatch.build.change") || %cl.miniGame.getID() != $DefaultMinigame.getID())
 			return;
 
 		%build = trim(%a SPC %b SPC %c SPC %d SPC %e SPC %f);
@@ -360,8 +368,8 @@ package DM {
 		if (%build $= "")
 			return;
 
-		%cl.miniGame.nextBuild = %build;
-		%cl.miniGame.messageAll('', "\c6" @ %cl.name SPC "\c3changed the build to\c6" SPC %build @ "\c3.");
-		%cl.miniGame.reset(0);
+		$DefaultMinigame.nextBuild = %build;
+		$DefaultMinigame.messageAll('', "\c6" @ %cl.name SPC "\c3changed the build to\c6" SPC %build @ "\c3.");
+		$DefaultMinigame.reset(0);
 	}
 }; activatePackage(DM);
