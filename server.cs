@@ -315,7 +315,7 @@ package DM {
 	function MiniGameSO::onAdd(%this) {
 		%ret = parent::onAdd(%this);
 		
-		if (%this.getID() != $DefaultMinigame.getID())
+		if (%this.getID() == $DefaultMinigame.getID())
 			%this.schedule(0, reset, 0);
 		
 		return %ret;
