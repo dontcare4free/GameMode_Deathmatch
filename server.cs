@@ -338,10 +338,14 @@ package DM {
 	function MiniGameSO::onAdd(%this) {
 		%ret = parent::onAdd(%this);
 		
-		if (%this.getID() == $DefaultMinigame.getID())
-			%this.schedule(0, reset, 0);
+		%this.schedule(1000, resetDM);
 		
 		return %ret;
+	}
+
+	function MiniGameSO::resetDM(%this) {
+		if (%this.getID() == $DefaultMinigame.getID())
+			%this.reset(0);
 	}
 
 	function MiniGameSO::reset(%this, %client) {
