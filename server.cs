@@ -7,6 +7,8 @@ forceRequiredAddOn("Server_Permissions");
 getPermissionManager().registerPermission("Reset Deathmatch minigame", "deathmatch.minigame.reset", 1);
 getPermissionManager().registerPermission("Force Deathmatch build", "deathmatch.build.change", 1);
 
+exec("./environmentLoader.cs");
+
 
 function DM_getBrickGroup() {
 	return BrickGroup_888888;
@@ -54,6 +56,8 @@ function DM_discoverBuilds() {
 
 		%brickDamage = true;
 		%fallingDamage = true;
+
+		%environment = "";
 
 		while(!%fo.isEOF()) {
 			%line = %fo.readLine();
@@ -112,6 +116,15 @@ function DM_discoverBuilds() {
 
 				case "fallingdamage":
 					%fallingDamage = getWord(%line, 1) + 0;
+
+				case "environment":
+					%environment = getWords(%line, 1);
+
+					if (!isFile(%environment)) {
+						error("Environment" SPC %environment SPC "does not exist, skipping build" SPC %name);
+						%success = false;
+						break;
+					}
 			}
 		}
 
@@ -130,6 +143,8 @@ function DM_discoverBuilds() {
 
 			$Deathmatch::Temp::BuildBrickDamage[%buildID] = %brickDamage;
 			$Deathmatch::Temp::BuildFallingDamage[%buildID] = %fallingDamage;
+
+			$Deathmatch::Temp::BuildEnvironment[%buildID] = %environment;
 
 			for (%i = 0 ; %i < %toolCount ; %i++)
 				$Deathmatch::Temp::BuildTool[%buildID, %i] = %tools[%i];
@@ -160,6 +175,12 @@ function DM_loadBuild(%build) {
 		announce(%msg);
 		return;
 	}
+
+	loadEnvironmentFromFile("Add-Ons/GameMode_Deathmatch/environment.txt");
+
+	%env = $Deathmatch::Temp::BuildEnvironment[%buildID];
+	if (%env !$= "")
+		loadEnvironmentFromFile(%env);
 
 	$DefaultMinigame.brickDamage = $Deathmatch::Temp::BuildBrickDamage[%buildID];
 	$DefaultMinigame.fallingDamage = $Deathmatch::Temp::BuildFallingDamage[%buildID];
