@@ -162,8 +162,6 @@ function DM_discoverBuilds() {
 	%fo.delete();
 }
 
-DM_discoverBuilds();
-
 function DM_loadBuild(%build) {
 	DM_getBrickGroup().deleteAll();
 
@@ -331,6 +329,10 @@ function MiniGameSO::checkScoreLimit(%this) {
 
 	%this.scoreLimitSchedule = %this.schedule(1000, checkScoreLimit);
 }
+
+
+DM_discoverBuilds();
+
 
 package DM {
 	function MiniGameSO::onAdd(%this) {
